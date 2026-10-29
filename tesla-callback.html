@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Tesla OAuth callback</title>
+  <style>
+    body { font-family: system-ui, sans-serif; max-width: 40rem; margin: 2rem auto; padding: 0 1rem; }
+    code, pre { word-break: break-all; background: #f4f4f4; padding: 0.5rem; display: block; }
+    .err { color: #b00020; }
+  </style>
+</head>
+<body>
+  <h1>Tesla auth callback</h1>
+  <p>Copy the <strong>code</strong> below and paste it into the box setup (or send it to Grok Bot). Do not share the code publicly.</p>
+  <pre id="out">Loading…</pre>
+  <script>
+    const params = new URLSearchParams(location.search);
+    const code = params.get('code');
+    const err = params.get('error');
+    const desc = params.get('error_description');
+    const state = params.get('state');
+    const el = document.getElementById('out');
+    if (err) {
+      el.className = 'err';
+      el.textContent = 'Error: ' + err + (desc ? '\n' + desc : '');
+    } else if (code) {
+      el.textContent = code;
+    } else {
+      el.textContent = 'No code in URL. Expected ?code=... from Tesla redirect.';
+    }
+    if (state) {
+      const s = document.createElement('p');
+      s.textContent = 'state: ' + state;
+      document.body.appendChild(s);
+    }
+  </script>
+</body>
+</html>
